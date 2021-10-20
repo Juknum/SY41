@@ -1,0 +1,14 @@
+|TP1
+Cout <= inst4.DB_MAX_OUTPUT_PORT_TYPE
+B => inst1.IN0
+B => inst.IN1
+B => inst5.IN1
+Cin => inst1.IN1
+Cin => inst2.IN1
+Cin => inst6.IN1
+A => inst2.IN0
+A => inst.IN0
+A => inst5.IN0
+S <= inst6.DB_MAX_OUTPUT_PORT_TYPE
+
+
