@@ -1,16 +1,16 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
 
 entity afficheur is 
   port (
-    E: in std_logic_vector(7 downto 0);
+    EN : in std_logic_vector(7 downto 0);
     HEX0, HEX1 : out std_logic_vector(6 downto 0);
     SIGN : out std_logic
   );
-end afficheur;
+end entity;
 
-architecture arch_afficheur of afficheur is -- Déclaration des signaux interne
+architecture arch_afficheur of afficheur is: -- Déclaration des signaux interne
+
 signal S : std_logic_vector(7 downto 0);
 
 component segment is -- Déclaration des components (identique à l'entity) => voir segment.vhd
@@ -21,17 +21,22 @@ component segment is -- Déclaration des components (identique à l'entity) => v
 end component;
 
 begin
-  process(E)
+  
+  process(S)
     begin
-      if E(7) = '1' then
+      if S(7) = '1' then
         SIGN <= '0';
-        S <= std_logic_vector(unsigned(not(E)) + 1);
+        S <= std_logic_vector(unsigned(not(S)) + 1);
       else
         SIGN <= '1';
-        S <= E;
+        S <= S;
       end if;
   end process;
 
+
   U1 : segment port map(S(3 downto 0), HEX0);
   U2 : segment port map(S(7 downto 4), HEX1);
+
+  
+
 end arch_afficheur;
