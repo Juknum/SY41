@@ -51,24 +51,38 @@ int main(void)
 	 * autres configurations électriques étant celle souhaitées après un reset
 	 */
 	PA->MODER &= ~GPIO_MODER_MODER5_Msk; /* GPIO_MODER_MODER5_Msk : constante définie dans stm32f401xe.h */
-	PA->MODER |= GPIO_MODER_MODER5_0;    /* GPIO_MODER_MODER5_0, constante définie dans stm32f401xe.h */
+	PA->MODER |= GPIO_MODER_MODER5_0;		 /* GPIO_MODER_MODER5_0, constante définie dans stm32f401xe.h */
 
-	/* ... */
+	/* 
+	 * Les autres paramètres sont déjà paramétrés comme il faut,
+	 * Il n'est donc pas nécessaire de les reparamétrer
+	 */
 
 	/* boucle principale contenant le programme : boucle infinie. */
-	while (TRUE) {
-		if ((PC->IDR & GPIO_IDR_ID13) == 0) {
-			ms = (ms + 256) % 1024;
-		}
+	while (TRUE)
+	{
+		// : On regarde si le bouton poussoire (PC13) est appuyé
+		if ((PC->IDR & GPIO_IDR_ID13) == 0)
+			ms = (ms + 256) % 1024; // si tel est le cas alors on augmente le temps entre chaque état
 
-		PA->ODR &= ~GPIO_ODR_OD5;
+		PA->ODR &= ~GPIO_ODR_OD5; // on allume la diode (PC5)
 		wait(ms);
-		PA->ODR |= GPIO_ODR_OD5;
+		PA->ODR |= GPIO_ODR_OD5; // on éteint la diode (PC5)
 		wait(ms);
-
 	}
 }
 
-void wait(int ms) {
-	for (; ms > 0; ms--) for (int i = 0; i < 3195; i++);
+/**
+ * @brief Petite fonction pour perdre du temps, et faire "patienter" le programme
+ * @param ms temps en milisecondes
+ */
+void wait(int ms)
+{
+	for (; ms > 0; ms--)
+	{
+		for (int i = 0; i < 3195; i++)
+		{
+			// boucle vide
+		}
+	}
 }
